@@ -27,13 +27,14 @@ class CalculatorModel: ObservableObject {
         }
     }
 
-    func performOperation(_ operation: String) {
-        if operation == "AC" {
+   func performOperation(_ operation: String) {
+        switch operation {
+        case "AC":
             display = "0"
             currentNumber = 0
             previousNumber = 0
             currentOperation = nil
-        } else if operation == "=" {
+        case "=":
             if let currentOperation = currentOperation {
                 switch currentOperation {
                 case "+":
@@ -50,7 +51,22 @@ class CalculatorModel: ObservableObject {
                 display = "\(currentNumber)"
                 self.currentOperation = nil
             }
-        } else {
+        case "sin":
+            currentNumber = sin(currentNumber)
+            display = "\(currentNumber)"
+        case "cos":
+            currentNumber = cos(currentNumber)
+            display = "\(currentNumber)"
+        case "tan":
+            currentNumber = tan(currentNumber)
+            display = "\(currentNumber)"
+        case "√":
+            currentNumber = sqrt(currentNumber)
+            display = "\(currentNumber)"
+        case "x²":
+            currentNumber = pow(currentNumber, 2)
+            display = "\(currentNumber)"
+        default:
             previousNumber = currentNumber
             currentOperation = operation
         }
