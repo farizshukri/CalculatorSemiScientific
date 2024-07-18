@@ -27,7 +27,7 @@ class CalculatorModel: ObservableObject {
         }
     }
 
-   func performOperation(_ operation: String) {
+    func performOperation(_ operation: String) {
         switch operation {
         case "AC":
             display = "0"
@@ -71,5 +71,13 @@ class CalculatorModel: ObservableObject {
             currentOperation = operation
         }
     }
-}
 
+    func deleteLast() {
+        guard !display.isEmpty else { return }
+        display.removeLast()
+        if display.isEmpty || display == "-" {
+            display = "0"
+        }
+        currentNumber = Double(display) ?? 0
+    }
+}
