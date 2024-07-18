@@ -36,7 +36,7 @@ struct ContentView: View {
                 HStack(spacing: 12) {
                     ForEach(row, id: \.self) { button in
                         Button(action: {
-                            if button == "AC" || button == "=" || button == "+" || button == "-" || button == "×" || button == "÷" {
+                            if button == "AC" || button == "=" || button == "+" || button == "-" || button == "×" || button == "÷" || button == "√" || button == "x²" || button == "sin" || button == "cos" || button == "tan" {
                                 model.performOperation(button)
                             } else {
                                 model.input(button)
