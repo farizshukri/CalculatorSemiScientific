@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  ScientificCalculator-1st
+//  ScientificCalculator
 //
 //  Created by FarizShukri  on 18/07/2024.
 //
@@ -11,13 +11,12 @@ struct ContentView: View {
     @StateObject private var model = CalculatorModel()
     
     let buttons: [[String]] = [
-        ["AC", "±", "%", "÷"],
+        ["Del/AC", "±", "%", "÷"],
         ["7", "8", "9", "×"],
         ["4", "5", "6", "-"],
         ["1", "2", "3", "+"],
         ["0", ".", "=", "√"],
-        ["sin", "cos", "tan", "x²"],
-        ["Del"]
+        ["sin", "cos", "tan", "x²"]
     ]
     
     var body: some View {
@@ -37,20 +36,36 @@ struct ContentView: View {
                 HStack(spacing: 12) {
                     ForEach(row, id: \.self) { button in
                         Button(action: {
-                            if button == "AC" || button == "=" || button == "+" || button == "-" || button == "×" || button == "÷" || button == "√" || button == "x²" || button == "sin" || button == "cos" || button == "tan" {
+                            if button == "Del/AC" {
+                                // Do nothing here, handled below
+                            } else if button == "=" || button == "+" || button == "-" || button == "×" || button == "÷" || button == "√" || button == "x²" || button == "sin" || button == "cos" || button == "tan" {
                                 model.performOperation(button)
-                            } else if button == "Del" {
-                                model.deleteLast()
                             } else {
                                 model.input(button)
                             }
                         }) {
-                            Text(button)
+                            Text(button == "Del/AC" ? "Del" : button)
                                 .font(.largeTitle)
                                 .frame(width: self.buttonWidth(button: button), height: self.buttonHeight())
                                 .foregroundColor(.white)
                                 .background(Color.gray)
                                 .cornerRadius(self.buttonHeight() / 2)
+                                .gesture(
+                                    LongPressGesture(minimumDuration: 1)
+                                        .onEnded { _ in
+                                            if button == "Del/AC" {
+                                                model.performOperation("AC")
+                                            }
+                                        }
+                                )
+                                .simultaneousGesture(
+                                    TapGesture()
+                                        .onEnded {
+                                            if button == "Del/AC" {
+                                                model.deleteLast()
+                                            }
+                                        }
+                                )
                         }
                     }
                 }
@@ -61,9 +76,6 @@ struct ContentView: View {
     }
     
     private func buttonWidth(button: String) -> CGFloat {
-        if button == "0" {
-            return (UIScreen.main.bounds.width - 5 * 12) / 4 * 2
-        }
         return (UIScreen.main.bounds.width - 5 * 12) / 4
     }
     
@@ -80,3 +92,4 @@ struct ScientificCalculatorApp: App {
         }
     }
 }
+
