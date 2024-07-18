@@ -15,8 +15,9 @@ struct ContentView: View {
         ["7", "8", "9", "×"],
         ["4", "5", "6", "-"],
         ["1", "2", "3", "+"],
-        ["0", ".", "=", "√"]
-        ["sin", "cos", "tan", "x²"]
+        ["0", ".", "=", "√"],
+        ["sin", "cos", "tan", "x²"],
+        ["Del"]
     ]
     
     var body: some View {
@@ -38,6 +39,8 @@ struct ContentView: View {
                         Button(action: {
                             if button == "AC" || button == "=" || button == "+" || button == "-" || button == "×" || button == "÷" || button == "√" || button == "x²" || button == "sin" || button == "cos" || button == "tan" {
                                 model.performOperation(button)
+                            } else if button == "Del" {
+                                model.deleteLast()
                             } else {
                                 model.input(button)
                             }
@@ -77,4 +80,3 @@ struct ScientificCalculatorApp: App {
         }
     }
 }
-
